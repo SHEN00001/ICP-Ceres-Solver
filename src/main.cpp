@@ -69,7 +69,7 @@ int main(int argc, char *argv[]){
             // 调用 kdtree.nearestKSearch(查询点, K=1, 索引结果, 距离结果)
             if(kdtree.nearestKSearch(p_new, 1, pointIdx, pointSqDist)>0){ // 如果找到了最近邻的点（>0）
                 // 如果距离小于阈值（例如 0.5米），认为匹配有效
-                if(pointSqDist[0] < 0.5 * 0.5){
+                if(pointSqDist[0] < 1.0){
                     // 找到了！source[i] 对应 target[pointIdx[0]]
                     Eigen::Vector3d p_s = p_eigen;
                     // 目标点
