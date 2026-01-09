@@ -6,7 +6,7 @@
 #include <pcl/common/transforms.h>
 #include <pcl/features/normal_3d.h>
 
-#include <cost_function.hpp>
+#include "cost_function.hpp"
 
 using namespace std;
 
@@ -21,8 +21,8 @@ public:
     void SavePcd();
 
 private:
-    string source_pcd = "../data/source.pcd";
-    string target_pcd = "../data/target.pcd";
+    string source_pcd_ = "../data/source.pcd";
+    string target_pcd_ = "../data/target.pcd";
     string source_transformed_pcd = "../data/point_to_plane.pcd";
 
     PointCloud::Ptr source_, target_;
@@ -40,8 +40,8 @@ PointToPlane::PointToPlane(){
     source_ = PointCloud::Ptr(new PointCloud);
     target_ = PointCloud::Ptr(new PointCloud);
 
-    pcl::io::loadPCDFile(source_pcd, *source_);
-    pcl::io::loadPCDFile(target_pcd, *target_);
+    pcl::io::loadPCDFile(source_pcd_, *source_);
+    pcl::io::loadPCDFile(target_pcd_, *target_);
 
     // cout << "成功读取source点云, 点数: " << source_->size() << endl;
     // cout << "成功读取target点云, 点数: " << target_->size() << endl;

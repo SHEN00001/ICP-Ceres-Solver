@@ -7,7 +7,7 @@
 
 struct PointToPointError
 {
-    PointToPointError(Eigen::Vector3d p_src, Eigen::Vector3d p_tgt) : p_src_(p_src), p_tgt_(p_tgt){}
+    PointToPointError(const Eigen::Vector3d& p_src, const Eigen::Vector3d& p_tgt) : p_src_(p_src), p_tgt_(p_tgt){}
 
     template <typename T>
     bool operator()(const T* const q, const T* const t, T* residual) const
@@ -47,7 +47,7 @@ struct PointToPointError
 
 struct PointToPlaneError
 {
-    PointToPlaneError(Eigen::Vector3d p_src, Eigen::Vector3d p_tgt, Eigen::Vector3d plane_unit_norm) : 
+    PointToPlaneError(const Eigen::Vector3d& p_src, const Eigen::Vector3d& p_tgt, const Eigen::Vector3d& plane_unit_norm) : 
                       p_src_(p_src), p_tgt_(p_tgt), plane_unit_norm_(plane_unit_norm){}
 
     template <typename T>
@@ -84,6 +84,29 @@ struct PointToPlaneError
     const Eigen::Vector3d p_src_, p_tgt_, plane_unit_norm_;
 };
 
+struct PlaneFittingError
+{
+    PlaneFittingError(const Eigen::Vector3d& p) : p_(p){}
+
+    template <typename T>
+    bool operator()(const T* const n, const T* const d, T* residual) const 
+    {
+        // residual = a*x + b*y + c*z + d
+        T p_T[3] = {T(p_[0]), T(p_[1]), T(p_[2])};
+
+        residual[0] = n[0] * p_T[0] + n[1] * p_T[1] + n[2] * p_T[2] + d[0];
+
+        return true;
+    }
+
+    static ceres::CostFunction* Create(const Eigen::Vector3d& p){
+        return (new ceres::AutoDiffCostFunction<PlaneFittingError, 1, 3, 1>(
+            new PlaneFittingError(p)
+        ));
+    }
+
+    Eigen::Vector3d p_; // 点
+};
 
 
 #endif COST_FUNCTION_HPP

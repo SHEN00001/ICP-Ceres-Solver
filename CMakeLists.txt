@@ -40,3 +40,10 @@ target_link_libraries(point_to_plane
     ${CERES_LIBRARIES}
     Eigen3::Eigen
 )
+
+add_executable(plane_fitting src/plane_fitting.cpp)
+target_link_libraries(plane_fitting
+    ${PCL_LIBRARIES}
+    ${CERES_LIBRARIES}
+    Eigen3::Eigen
+)

@@ -4,6 +4,9 @@
 # build/
 build
 
+# data
+data
+
 # Prerequisites
 *.d
 
