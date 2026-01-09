@@ -33,3 +33,10 @@ target_link_libraries(icp_ceres_solver
     ${CERES_LIBRARIES}
     Eigen3::Eigen
 )
+
+add_executable(point_to_plane src/point_to_plane_residual.cpp)
+target_link_libraries(point_to_plane
+    ${PCL_LIBRARIES}
+    ${CERES_LIBRARIES}
+    Eigen3::Eigen
+)
